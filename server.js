@@ -48,8 +48,9 @@ app.post("/create-checkout-session",async(req,res)=>{
       quantity:product.Quantity
   }));
 
+  let session
   try{
-    const session = await stripe.checkout.sessions.create({
+    session = await stripe.checkout.sessions.create({
       payment_method_types:["card"],
       line_items:lineItems,
       mode:"payment",
