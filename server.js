@@ -54,7 +54,7 @@ app.post("/create-checkout-session",async(req,res)=>{
       line_items:lineItems,
       mode:"payment",
       success_url:"http://localhost:5173/success",
-      cancel_url:process.env.FRONTEND_CANCEL_URL,
+      cancel_url:"http://localhost:5173/cancel",
   });
   }catch(err){
     return res.json(err.message)
