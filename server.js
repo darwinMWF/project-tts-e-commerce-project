@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require('cors');
 // This is your test secret API key.
-const stripe = require("stripe")(process.env.STRIPE_CHECKOUT_SESSION_SECRET_KEY);
+const stripe = require("stripe")("sk_test_51Ns59jSIro9HdFAVbEF8XPmxcHruMBgEyhw1RBHjiwZUFtdPvkYz0nGYoGbAQvd5RGgqeia0Fg71pSAWMpErYy5s00wQMhCid3");
 
 // const allowedOrigins = [process.env.FRONTEND_ORIGIN];
 // const corsOptions = {
