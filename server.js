@@ -28,7 +28,6 @@ app.use(
 
 
 
-
 app.use(express.static("public"));
 app.use(express.json());
 
@@ -48,13 +47,18 @@ app.post("/create-checkout-session",async(req,res)=>{
       quantity:product.Quantity
   }));
 
-  const session = await stripe.checkout.sessions.create({
+  try{
+    const session = await stripe.checkout.sessions.create({
       payment_method_types:["card"],
       line_items:lineItems,
       mode:"payment",
       success_url:process.env.FRONTEND_SUCCESS_URL,
       cancel_url:process.env.FRONTEND_CANCEL_URL,
   });
+  }catch(err){
+    return res.json(err.message)
+  }
+ 
 
   res.json({id:session.id})
 
