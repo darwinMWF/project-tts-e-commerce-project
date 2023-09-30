@@ -5,18 +5,29 @@ const cors = require('cors');
 // This is your test secret API key.
 const stripe = require("stripe")(process.env.STRIPE_CHECKOUT_SESSION_SECRET_KEY);
 
-const allowedOrigins = [process.env.FRONTEND_ORIGIN];
-const corsOptions = {
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-  };
+// const allowedOrigins = [process.env.FRONTEND_ORIGIN];
+// const corsOptions = {
+//     origin: function (origin, callback) {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error('Not allowed by CORS'));
+//       }
+//     },
+//   };
   
-  app.use(cors(corsOptions));
+//   app.use(cors(corsOptions));
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT"],
+    credentials: true,
+  })
+);
+
+
+
 
 app.use(express.static("public"));
 app.use(express.json());
