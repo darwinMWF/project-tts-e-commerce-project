@@ -7,15 +7,8 @@ const stripe = require("stripe")(
   process.env.STRIPE_CHECKOUT_SESSION_SECRET_KEY
 );
 
-const allowedOrigins = [process.env.FRONTEND_ORIGIN];
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: "*",
 };
 
 app.use(cors(corsOptions));
@@ -24,9 +17,7 @@ app.use(express.static("public"));
 app.use(express.json());
 
 app.post("/create-checkout-session", async (req, res) => {
-  const { products } = req.body;
-  console.log(products);
-
+  const { products, URLs } = req.body;
   const lineItems = products.map((product) => ({
     price_data: {
       currency: "inr",
@@ -45,13 +36,12 @@ app.post("/create-checkout-session", async (req, res) => {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: process.env.FRONTEND_SUCCESS_URL,
-      cancel_url: process.env.FRONTEND_CANCEL_URL,
+      success_url: URLs.success,
+      cancel_url: URLs.cancel,
     });
   } catch (err) {
     return res.json(err.message);
   }
-
   res.json({ id: session.id });
 });
 
